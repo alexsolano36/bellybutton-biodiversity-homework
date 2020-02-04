@@ -1,48 +1,53 @@
 d3.json("data/samples.json").then((data)=> {
-  console.log(data);
-});
 
-d3.json("data/samples.json").then((data)=> {
   data.names.forEach(function(name) {
       d3.select("#selDataset").append("option").text(name).property("value");
   });
+
   // first default from dropdown
   let subjectID = d3.select('#selDataset option:checked').text();
   //console.log(data.samples.filter(subject => subject.id === subjectID)[0])
 //});
 
-// plotly functions
+  // plotly functions
 
-plotBar(subjectID, data);
+  plotBar(subjectID, data);
 
-plotBubble(subjectID, data);
+  plotBubble(subjectID, data);
 
-displayData(subjectID, data);
+  displayData(subjectID, data);
 
-plotGague(subjectID, data);
+  plotGague(subjectID, data);
 
 });
 
 //from activity done in class to get dropdown menu items on 'select'
 let optionChanged = function(id) {
+
   // renaming function parameter
   let subjectID = id;
+
   d3.json("data/samples.json").then((data)=> {
+
     // Plot functions
     plotBar(subjectID, data);
     plotBubble(subjectID, data);
     displayData(subjectID, data);
     plotGauge(subjectID, data);
+
   });
+
 };
 
 // plotBar function filters data based on subject ID 
 let plotBar = function(subjectID, data) {
+
       // Get data for subject selected in dropdown
       let subjectData = data.samples.filter(subject => subject.id === subjectID)[0];
       let sampleValues = subjectData.sample_values.slice(0, 10).reverse();
       let otuIDs = subjectData.otu_ids.slice(0, 10).reverse().map(otuid => `OTU ${otuid}`);
-      let labels = subjectData.otu_labels.slice(0,10).reverse();
+      let labels = subjectData.otu_labels.slice(0, 10).reverse();
+
       let trace = [{
           x: sampleValues,
           y: otuIDs,
@@ -56,10 +61,10 @@ let plotBar = function(subjectID, data) {
       }];
       
       let layout = {
-        title: { text: `<b>Top 10 Microbial Species</b> <br> Found in Subject ${subjectID}`},
+        title: { text: `<b>Top 10 Microbial Species</b> <br> Found in Subject ${subjectID} ` },
         paper_bgcolor: "rgb(220, 220, 101)",
         plot_bgcolor: "#A4DAD0",
-        font: { color: "black", family: "Arial" size: 12 }
+        font: { color: "black", family: "Arial", size: 12 }
       };
       let config = {responsive: true}
 
@@ -87,7 +92,7 @@ let plotBubble = function(subjectID, data) {
   }];
 
   let layout = {
-    xaxis.{title: "OTU IDs"},
+    xaxis:{title: "OTU ID"},
     autosize: true,
     height: 700,
     plot_bgcolor: "#A4DAD0",
@@ -103,7 +108,7 @@ let plotBubble = function(subjectID, data) {
 //demographics for subjectIDs
 let displayData = function(subjectID, data) {
   // dropdown ID text
-  let subjectData = data.metadata.filter(subject => subject.id == subjectId) [0];
+  let subjectData = data.metadata.filter(subject => subject.id == subjectID)[0];
   //clear out any existing html
   d3.select("#sample-metadata").html("");
 
