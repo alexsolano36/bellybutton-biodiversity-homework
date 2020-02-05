@@ -42,35 +42,35 @@ let optionChanged = function(id) {
 // plotBar function filters data based on subject ID 
 let plotBar = function(subjectID, data) {
 
-      // Get data for subject selected in dropdown
-      let subjectData = data.samples.filter(subject => subject.id === subjectID)[0];
-      let sampleValues = subjectData.sample_values.slice(0, 10).reverse();
-      let otuIDs = subjectData.otu_ids.slice(0, 10).reverse().map(otuid => `OTU ${otuid}`);
-      let labels = subjectData.otu_labels.slice(0, 10).reverse();
+  // Get data for subject selected in dropdown
+  let subjectData = data.samples.filter(subject => subject.id === subjectID)[0];
+  let sampleValues = subjectData.sample_values.slice(0, 10).reverse();
+  let otuIDs = subjectData.otu_ids.slice(0, 10).reverse().map(otuid => `OTU ${otuid}`);
+  let label = subjectData.otu_labels.slice(0, 10).reverse();
 
-      let trace = [{
-          x: sampleValues,
-          y: otuIDs,
-          type: "bar",
-          orientation: "h"
-          text: labels,
-          bgcolor: "red",
-          marker: {
-            color: "#133F8D"
-          }
-      }];
+  let trace = [{
+    x: sampleValues,
+    y: otuIDs,
+    type: "bar",
+    orientation: "h",
+    text: label,
+    bgcolor: "red",
+    marker: {
+      color: "#133F8D"
+    }
+  }];
       
-      let layout = {
-        title: { text: `<b>Top 10 Microbial Species</b> <br> Found in Subject ${subjectID} ` },
-        paper_bgcolor: "rgb(220, 220, 101)",
-        plot_bgcolor: "#A4DAD0",
-        font: { color: "black", family: "Arial", size: 12 }
-      };
-      let config = {responsive: true}
-
-
-      Plotly.newPlot("bar", trace, layout, config);
+  let layout = {
+    title: { text: `<b>Top 10 Microbial Species</b> <br> Found in Subject ${subjectID} ` },
+    paper_bgcolor: "rgb(220, 220, 101)",
+    plot_bgcolor: "#A4DAD0",
+    font: { color: "black", family: "Arial", size: 12 }
   };
+  let config = {responsive: true}
+
+
+  Plotly.newPlot("bar", trace, layout, config);
+};
 
 // Bubble Chart function filters data on subject ID
 let plotBubble = function(subjectID, data) {
